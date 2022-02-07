@@ -10,7 +10,7 @@ module "vm" {
   depends_on = [azurerm_resource_group.rg-vm]
 }
 module "vnet" {
-  source = "./modules/vnet"
+  source = "../../modules/vnet/"
   #resource_group_name = "${var.resource_group_name}"
   address_prefixes = var.address_prefixes
   subnet_name = var.subnet_name
