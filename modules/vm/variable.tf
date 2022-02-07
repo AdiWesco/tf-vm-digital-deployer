@@ -31,12 +31,32 @@ variable "tags" {
 variable "subnet_name" {
   default = "subnet1"
 }
-variable "azurerm_virtual_network" {
-  default = "vnet-vm"
-  description = "enter vnet name"
-}
 variable "managed_disk" {
     default = "disk1"
     description = "additional storage disk"
   
+}
+
+
+variable "azurerm_virtual_network" {
+  default = "vnet-vm"
+  description = "enter vnet name"
+}
+variable "security_group" {
+  description = "enter security group"
+  default = "security-group"
+}
+variable "address_space" {
+  type = list(string)
+  default = ["10.0.0.0/16"]
+  description = "address space here"
+}
+variable "address_prefixes" {
+    type = list(string)
+    default = ["10.0.1.0/24"]
+    description = "address prefixes here"
+}
+
+variable "publicip" {
+  default = "publicip"
 }
