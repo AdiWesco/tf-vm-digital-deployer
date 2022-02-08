@@ -20,8 +20,8 @@ variable "subnet_id" {
 variable "tags" {
     type = map(string)
     default = {
-    Environment  = "Production"
-    ProjectName  = "demo-project"
+    Environment  = "Dev"
+    ProjectName  = "iot-project"
     Owner        = "user@example.com"
     terraform    = "yes"
   
@@ -29,7 +29,7 @@ variable "tags" {
   
 }
 variable "subnet_name" {
-  default = "subnet1"
+  default = "vm-subnet"
 }
 variable "managed_disk" {
     default = "disk1"

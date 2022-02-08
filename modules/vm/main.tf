@@ -1,85 +1,3 @@
-resource "azurerm_resource_group" "rg-vm" {
-  name     = var.resource_group
-  location = var.location
-}
-## security group creation 
-resource "azurerm_network_security_group" "nsg" {
-  name                = var.security_group
-  location            = var.location
-  resource_group_name = var.resource_group
-  depends_on          = [azurerm_resource_group.rg-vm]
-  tags                = var.tags
- 
-}
-resource "azurerm_public_ip" "publicip" {
-  name                = var.publicip
-  resource_group_name = var.resource_group
-  location            = var.location
-  allocation_method   = "Dynamic"
-  #public_ip_dns       = ["vm.wesco"]
-}
-## vnet creation 
-resource "azurerm_virtual_network" "vnet-vm" {
-  name                = var.azurerm_virtual_network
-  location            = var.location
-  resource_group_name = var.resource_group
-  address_space       = var.address_space
-  dns_servers         = ["10.0.0.4"]
-
- 
-}
-resource "azurerm_subnet" "subnet1" {
-  name                 = var.subnet_name
-  resource_group_name  = var.resource_group
-  virtual_network_name = var.azurerm_virtual_network
-  address_prefixes     = var.address_prefixes
-}
-
-resource "azurerm_subnet_network_security_group_association" "example" {
-    subnet_id                 = azurerm_subnet.subnet1.id
-    network_security_group_id = azurerm_network_security_group.nsg.id
-  
-}
-
-data "azurerm_subnet" "subnet1" {
-  name                 = var.subnet_name
-  resource_group_name  = var.resource_group
-  virtual_network_name = var.azurerm_virtual_network
-  depends_on = [
-    azurerm_virtual_machine.vm
-  ]
-
-}
-
-resource "azurerm_network_interface" "nic" {
-  name = "nic"
-  location = var.location
-  resource_group_name = var.resource_group
-  ip_configuration {
-    name                          = "internal"
-    subnet_id                     = data.azurerm_subnet.subnet1.id
-    private_ip_address_allocation = "Dynamic"
-  }
-}
-resource "azurerm_route_table" "route_table" {
-  name                = "route_table-01"
-  location            = var.location
-  resource_group_name = var.resource_group
-  route {
-    name                   = "route-01"
-    address_prefix         = "10.0.0.0/14"
-    next_hop_type          = "VirtualAppliance"
-    next_hop_in_ip_address = "10.10.0.1"
-  }
-  depends_on = [azurerm_resource_group.rg-vm]
-  tags       = var.tags
-}
-resource "azurerm_subnet_route_table_association" "vm_rta" {
-  subnet_id      = data.azurerm_subnet.subnet1.id
-  route_table_id = azurerm_route_table.route_table.id
-  depends_on     = [data.azurerm_subnet.subnet1, azurerm_route_table.route_table]
-}
-
 
 #########    VM creation ########
 resource "azurerm_virtual_machine" "vm" {
@@ -139,6 +57,6 @@ resource "azurerm_managed_disk" "disk" {
 
 ## adding DNS
 resource "azurerm_dns_zone" "example" {
-  name                = "mydomain.com"
+  name                = "wescovm.com"
   resource_group_name = var.resource_group
 }
