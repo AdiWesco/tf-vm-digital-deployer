@@ -11,4 +11,13 @@ terraform {
       version = "=2.91.0"
     }
   }
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "wescodist"
+
+    workspaces {
+      #name = "devsecops-sandbox"
+      name = "iot-sandbox"
+      #prefix = "sp-sandbox"
+    }
 }
