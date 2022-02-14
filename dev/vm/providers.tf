@@ -5,16 +5,16 @@ terraform {
       version = "=2.91.0"
     }
   }
-  backend "remote" {
-    hostname     = "app.terraform.io"
-    organization = "wescodist"
+  #backend "remote" {
+   # hostname     = "app.terraform.io"
+    #organization = "wescodist"
 
-    workspaces {
+    #workspaces {
       #name = "devsecops-sandbox"
-      name = "iot-sandbox"
+      #name = "iot-sandbox"
       #prefix = "sp-sandbox"
-    }
-  }
+    #}
+  #}
 
 }
 provider "azurerm" {
