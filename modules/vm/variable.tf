@@ -1,10 +1,6 @@
-variable "azurerm_virtual_machine" {
-    default = "vm"
-    description = "enter vm name"
-  
-}
+
 variable "resource_group" {
-    default = "rg-vm"
+    default = "rg-vm-del"
     description = "enter rg name"
   
 }
@@ -12,9 +8,9 @@ variable "location" {
   default = "eastus"
   description = "location name"
 }
-variable "subnet_id" {
-    default = ""
-    description = "enter subnet_id"
+variable "azurerm_virtual_machine" {
+    default = "vm"
+    description = "enter vm name"
   
 }
 variable "tags" {
@@ -26,25 +22,18 @@ variable "tags" {
     terraform    = "yes"
   
     }
-  
-}
-variable "subnet_name" {
-  default = "vm-subnet"
 }
 variable "managed_disk" {
     default = "disk1"
-    description = "additional storage disk"
-  
+    description = "additional storage disk" 
 }
-
-
 variable "azurerm_virtual_network" {
   default = "vnet-vm"
   description = "enter vnet name"
 }
 variable "security_group" {
   description = "enter security group"
-  default = "security-group"
+  default = "sg-vm"
 }
 variable "address_space" {
   type = list(string)
@@ -52,11 +41,18 @@ variable "address_space" {
   description = "address space here"
 }
 variable "address_prefixes" {
-    type = list(string)
-    default = ["10.0.1.0/24"]
+    type = string
+    default = "10.0.1.0/24"
     description = "address prefixes here"
 }
 
 variable "publicip" {
   default = "publicip"
 }
+variable "subnet_name" {
+  default = "vm-subnet"
+  }
+
+  variable "dns_zone" {
+    default = "galuctussandbox.app"
+  }

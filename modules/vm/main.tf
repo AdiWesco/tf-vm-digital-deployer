@@ -5,9 +5,8 @@ resource "azurerm_virtual_machine" "vm" {
   location              = var.location
   resource_group_name   = var.resource_group
   vm_size               = "Standard_DS1_v2"
-  network_interface_ids = [azurerm_network_interface.nic.id]
   tags                  = var.tags 
-  
+  network_interface_ids = [azurerm_network_interface.main.id]
 
   # Uncomment this line to delete the OS disk automatically when deleting the VM
   # delete_os_disk_on_termination = true
@@ -37,9 +36,7 @@ resource "azurerm_virtual_machine" "vm" {
     disable_password_authentication = false
   }
   provisioner "remote-exec" {
-    inline =[
-       file("install_apache.sh")
-    ]
+    inline = [file("install_apache.sh")]
   }
 }
 
@@ -50,13 +47,14 @@ resource "azurerm_managed_disk" "disk" {
   resource_group_name  = var.resource_group
   storage_account_type = "Standard_LRS"
   create_option        = "Empty"
-  disk_size_gb         = "100"
+  disk_size_gb         = 100
 
   tags = var.tags
 }
 
 ## adding DNS
 resource "azurerm_dns_zone" "example" {
-  name                = "wescovm.com"
+  name                = var.dns_zone
   resource_group_name = var.resource_group
+  tags = var.tags
 }
