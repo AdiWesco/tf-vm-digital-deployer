@@ -5,6 +5,7 @@ resource "azurerm_resource_group" "rg-vm" {
 module "vm" {
   source = "../../modules/vm"
 
+  
   #client config
   #client_secret        = var.client_secret
   #client_id            = var.client_id
